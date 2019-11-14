@@ -6,14 +6,14 @@ const User = require('../models/user')
 module.exports.createUser = (req, res, next) => {
   if (Object.keys(req.body).length === 0) return res.status(400).send({ message: 'Тело запроса пустое' })
   const {
-    name, about, avatar, email, password,
+    name, email, password,
   } = req.body
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      name, about, avatar, email, password: hash,
+      name, email, password: hash,
     })
       .then((user) => res.status(201).send({
-        _id: user._id, name: user.name, about: user.about, email: user.email,
+        _id: user._id, name: user.name, email: user.email,
       }))
       .catch(() => {
         const err = new Error('Ошибка создания пользователя')

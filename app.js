@@ -5,7 +5,7 @@ const helmet = require('helmet')
 const { celebrate, Joi, errors } = require('celebrate')
 const cookieParser = require('cookie-parser')
 const usersRoute = require('./routes/users')
-const cardsRoute = require('./routes/cards')
+const articlesRoute = require('./routes/articles')
 const auth = require('./middlewares/auth')
 const { requestLogger, errorLogger } = require('./middlewares/logger')
 const { createUser, login } = require('./controllers/auth')
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cookieParser())
 
-mongoose.connect('mongodb://localhost:27017/mestodb', {
+mongoose.connect('mongodb://localhost:27017/news-tracker', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -40,8 +40,6 @@ app.post('/signup', celebrate({
     password: Joi.string().required().min(8),
     email: Joi.string().email().required(),
     name: Joi.string().min(2).max(30).required(),
-    avatar: Joi.string().uri().required(),
-    about: Joi.string().min(2).max(30).required(),
   }),
 }), createUser)
 
@@ -55,7 +53,7 @@ app.post('/signin', celebrate({
 app.use(auth)
 
 app.use('/users', usersRoute)
-app.use('/cards', cardsRoute)
+app.use('/articles', articlesRoute)
 app.use('*', (req, res, next) => {
   next(new Error404('Ресурс не найден'))
 })
