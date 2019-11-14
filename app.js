@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const helmet = require('helmet')
 const { celebrate, Joi, errors } = require('celebrate')
 const cookieParser = require('cookie-parser')
+const rateLimit = require('express-rate-limit')
 const usersRoute = require('./routes/users')
 const articlesRoute = require('./routes/articles')
 const auth = require('./middlewares/auth')
@@ -11,10 +12,15 @@ const { requestLogger, errorLogger } = require('./middlewares/logger')
 const { createUser, login } = require('./controllers/auth')
 const Error404 = require('./errors/error404')
 
-const { PORT = 3000 } = process.env
+const { PORT = 3000, RATE_LIMIT_MINUTES = 15, RATE_LIMIT_QTY = 200 } = process.env
+const limiter = rateLimit({
+  windowMs: RATE_LIMIT_MINUTES * 60 * 1000,
+  max: RATE_LIMIT_QTY,
+})
 
 const app = express()
-
+app.set('trust proxy', 1)
+app.use(limiter)
 app.use(helmet())
 
 app.use(express.json())

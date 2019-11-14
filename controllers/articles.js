@@ -19,7 +19,7 @@ module.exports.getAllArticles = (req, res, next) => {
   Article.find({})
     .populate('owner')
     .then((articles) => res.send(articles))
-    .catch(() => next(new Error500('Ошибка при чтении всех карточек')))
+    .catch(() => next(new Error500('Ошибка при чтении всех статей')))
 }
 
 module.exports.deleteArticle = (req, res, next) => {
