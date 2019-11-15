@@ -12,7 +12,13 @@ const { requestLogger, errorLogger } = require('./middlewares/logger')
 const { createUser, login } = require('./controllers/auth')
 const Error404 = require('./errors/error404')
 
-const { PORT = 3000, RATE_LIMIT_MINUTES = 15, RATE_LIMIT_QTY = 200 } = process.env
+const {
+  PORT = 3000,
+  RATE_LIMIT_MINUTES = 15,
+  RATE_LIMIT_QTY = 200,
+  MONGO_DB = 'mongodb://localhost:27017/news-tracker',
+} = process.env
+
 const limiter = rateLimit({
   windowMs: RATE_LIMIT_MINUTES * 60 * 1000,
   max: RATE_LIMIT_QTY,
@@ -28,7 +34,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cookieParser())
 
-mongoose.connect('mongodb://localhost:27017/news-tracker', {
+mongoose.connect(MONGO_DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
