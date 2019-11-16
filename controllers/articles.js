@@ -26,13 +26,14 @@ module.exports.deleteArticle = (req, res, next) => {
   Article.findById(req.params.id).select('+owner')
     // eslint-disable-next-line consistent-return
     .then((article) => {
+      if (article === null) throw new Error404('Такой статьи нет')
       if (JSON.stringify(article.owner) !== JSON.stringify(req.user._id)) {
         const notArticleOwner = new Error('Статья не ваша, удалить нельзя')
         notArticleOwner.statusCode = 403
         throw notArticleOwner
       }
-      Article.remove(article)
-        .then((articleToDelete) => res.send(articleToDelete !== null ? article : { message: 'Удалять нечего' }))
+      Article.deleteOne(article)
+        .then(() => res.send(article))
         .catch(() => { throw new Error500('Ошибка при удалении статьи') })
     })
     .catch((err) => next(err.statusCode ? err : new Error404('Такой статьи нет')))
