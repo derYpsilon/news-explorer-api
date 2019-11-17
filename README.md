@@ -1,7 +1,7 @@
 # news-explorer-api
 
-[api.tsitskun.tk]:http://api.tsitskun.tk -- API для работы с новстями и пользователями
-[tsitskun.tk]:http://tsitskun.tk -- фронтенд
+http://api.tsitskun.tk -- API для работы с новстями и пользователями
+http://tsitskun.tk -- фронтенд
 
 Реализовано:
 
