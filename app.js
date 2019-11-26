@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const helmet = require('helmet')
 const { celebrate, Joi, errors } = require('celebrate')
 const cookieParser = require('cookie-parser')
@@ -26,6 +27,7 @@ const limiter = rateLimit({
 
 const app = express()
 app.set('trust proxy', 1)
+app.use(cors())
 app.use(limiter)
 app.use(helmet())
 
