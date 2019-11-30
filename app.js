@@ -29,6 +29,7 @@ const app = express()
 app.set('trust proxy', 1)
 app.use(cors(({
   credentials: true,
+  origin: true,
 })))
 app.use(limiter)
 app.use(helmet())
