@@ -37,7 +37,7 @@ module.exports.login = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
           sameSite: false,
-        }).send({ message: 'Logged successfully' })
+        }).send({ login: true })
     })
     .catch((e) => {
       const err = new Error(e.message)
