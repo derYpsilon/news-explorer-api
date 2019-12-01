@@ -10,7 +10,7 @@ const usersRoute = require('./routes/users')
 const articlesRoute = require('./routes/articles')
 const auth = require('./middlewares/auth')
 const { requestLogger, errorLogger } = require('./middlewares/logger')
-const { createUser, login } = require('./controllers/auth')
+const { createUser, login, logout } = require('./controllers/auth')
 const Error404 = require('./errors/error404')
 
 const {
@@ -66,6 +66,8 @@ app.post('/signin', celebrate({
     email: Joi.string().email().required(),
   }),
 }), login)
+
+app.post('/logout', logout)
 
 app.use(auth)
 

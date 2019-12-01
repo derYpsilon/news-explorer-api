@@ -45,3 +45,12 @@ module.exports.login = (req, res, next) => {
       next(err)
     })
 }
+
+// eslint-disable-next-line no-unused-vars
+module.exports.logout = (req, res, next) => res
+  .status(201)
+  .cookie('jwt', '', {
+    maxAge: 0,
+    httpOnly: true,
+    sameSite: false,
+  }).send({ login: false })
